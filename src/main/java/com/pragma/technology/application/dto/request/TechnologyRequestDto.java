@@ -8,7 +8,12 @@ import lombok.Setter;
 @Getter
 @Setter
 public class TechnologyRequestDto {
-    @NotBlank
-    @Size(max = 50)
+    @NotBlank(message = "name must not be blank")
+    @Size(max = 50, message = "name must not exceed 50 characters")
     private String name;
+
+    @NotBlank(message = "description must not be blank")
+    @Size(max = 90, message = "description must not exceed 50 characters")
+    private String description;
+
 }

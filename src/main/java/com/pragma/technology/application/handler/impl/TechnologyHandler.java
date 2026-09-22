@@ -25,7 +25,7 @@ public class TechnologyHandler implements ITechnologyHandler {
     }
 
     @Override
-    public Flux<TechnologyResponseDto> getAllTechnologys() {
-        return technologyServicePort.getAllTechnologys().map(technologyResponseMapper::toResponse);
+    public Flux<TechnologyResponseDto> getAllTechnologies() {
+        return technologyServicePort.getAllTechnologies().map(technologyResponseMapper::toResponse);
     }
 }
