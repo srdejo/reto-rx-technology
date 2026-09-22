@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS technology (
 );
 
 CREATE TABLE IF NOT EXISTS capacity_technology (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     technology_id BIGINT,
-    capacity_id BIGINT,
-    PRIMARY KEY (technology_id, capacity_id)
+    capacity_id BIGINT
 )

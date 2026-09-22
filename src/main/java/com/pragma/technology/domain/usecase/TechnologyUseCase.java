@@ -5,6 +5,7 @@ import com.pragma.technology.domain.exception.TechnologyAlreadyExistsException;
 import com.pragma.technology.domain.exception.TechnologyNotFoundException;
 import com.pragma.technology.domain.model.CapacityTechnologiesModel;
 import com.pragma.technology.domain.model.TechnologyModel;
+import com.pragma.technology.domain.spi.ICapacityTechnologyPersistencePort;
 import com.pragma.technology.domain.spi.ITechnologyPersistencePort;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
@@ -16,9 +17,12 @@ import java.util.List;
 public class TechnologyUseCase implements ITechnologyServicePort {
 
     private final ITechnologyPersistencePort technologyPersistencePort;
+    private final ICapacityTechnologyPersistencePort capacityTechnologyPersistencePort;
 
-    public TechnologyUseCase(ITechnologyPersistencePort technologyPersistencePort) {
+    public TechnologyUseCase(ITechnologyPersistencePort technologyPersistencePort,
+                              ICapacityTechnologyPersistencePort capacityTechnologyPersistencePort) {
         this.technologyPersistencePort = technologyPersistencePort;
+        this.capacityTechnologyPersistencePort = capacityTechnologyPersistencePort;
     }
 
     @Override
@@ -47,12 +51,12 @@ public class TechnologyUseCase implements ITechnologyServicePort {
                     if (existingIds.size() != technologyIds.size()) {
                         return Mono.error(new TechnologyNotFoundException());
                     }
-                    return technologyPersistencePort.saveCapacityTechnologies(capacityId, technologyIds);
+                    return capacityTechnologyPersistencePort.saveCapacityTechnologies(capacityId, technologyIds);
                 });
     }
 
     @Override
     public Flux<CapacityTechnologiesModel> getTechnologiesByCapacityIds(List<Long> capacityIds) {
-        return technologyPersistencePort.getTechnologiesByCapacityIds(capacityIds);
+        return capacityTechnologyPersistencePort.getTechnologiesByCapacityIds(capacityIds);
     }
 }
