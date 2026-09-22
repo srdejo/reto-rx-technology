@@ -1,6 +1,7 @@
 package com.pragma.technology.domain.usecase;
 
 import com.pragma.technology.domain.api.ITechnologyServicePort;
+import com.pragma.technology.domain.exception.TechnologyAlreadyExistsException;
 import com.pragma.technology.domain.model.TechnologyModel;
 import com.pragma.technology.domain.spi.ITechnologyPersistencePort;
 import reactor.core.publisher.Flux;
@@ -16,11 +17,19 @@ public class TechnologyUseCase implements ITechnologyServicePort {
 
     @Override
     public Mono<TechnologyModel> saveTechnology(TechnologyModel technologyModel) {
-        return technologyPersistencePort.saveTechnology(technologyModel);
+        return technologyPersistencePort
+                .existByName(technologyModel.getName())
+                .flatMap(exists -> {
+                    if (exists) {
+                        return Mono.error(new TechnologyAlreadyExistsException());
+                    }
+
+                    return technologyPersistencePort.saveTechnology(technologyModel);
+                });
     }
 
     @Override
-    public Flux<TechnologyModel> getAllTechnologys() {
-        return technologyPersistencePort.getAllTechnologys();
+    public Flux<TechnologyModel> getAllTechnologies() {
+        return technologyPersistencePort.getAllTechnologies();
     }
 }

@@ -9,5 +9,5 @@ public interface ITechnologyHandler {
 
     Mono<Void> saveTechnology(TechnologyRequestDto technologyRequestDto);
 
-    Flux<TechnologyResponseDto> getAllTechnologys();
+    Flux<TechnologyResponseDto> getAllTechnologies();
 }

@@ -7,5 +7,7 @@ import reactor.core.publisher.Mono;
 public interface ITechnologyPersistencePort {
     Mono<TechnologyModel> saveTechnology(TechnologyModel technologyModel);
 
-    Flux<TechnologyModel> getAllTechnologys();
+    Flux<TechnologyModel> getAllTechnologies();
+
+    Mono<Boolean> existByName(String name);
 }

@@ -33,7 +33,7 @@ public class TechnologyRestController {
             @ApiResponse(responseCode = "201", description = "Technology created", content = @Content),
             @ApiResponse(responseCode = "400", description = "Invalid request", content = @Content)
     })
-    @PostMapping("/")
+    @PostMapping()
     public Mono<ResponseEntity<Void>> saveTechnology(@Valid @RequestBody TechnologyRequestDto technologyRequestDto) {
         return technologyHandler.saveTechnology(technologyRequestDto)
                 .thenReturn(new ResponseEntity<>(HttpStatus.CREATED));
@@ -46,8 +46,8 @@ public class TechnologyRestController {
                             array = @ArraySchema(schema = @Schema(implementation = TechnologyResponseDto.class)))),
             @ApiResponse(responseCode = "404", description = "No data found", content = @Content)
     })
-    @GetMapping("/")
-    public Flux<TechnologyResponseDto> getAllTechnologys() {
-        return technologyHandler.getAllTechnologys();
+    @GetMapping()
+    public Flux<TechnologyResponseDto> getAllTechnologies() {
+        return technologyHandler.getAllTechnologies();
     }
 }

@@ -8,5 +8,5 @@ public interface ITechnologyServicePort {
 
     Mono<TechnologyModel> saveTechnology(TechnologyModel technologyModel);
 
-    Flux<TechnologyModel> getAllTechnologys();
+    Flux<TechnologyModel> getAllTechnologies();
 }

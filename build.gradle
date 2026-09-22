@@ -1,5 +1,5 @@
 plugins {
-	id 'org.springframework.boot' version '4.1.0'
+	id 'org.springframework.boot' version '4.1.1'
 	id 'io.spring.dependency-management' version '1.1.7'
 	id 'java'
 	id 'jacoco'
@@ -10,7 +10,7 @@ version = '0.0.1-SNAPSHOT'
 
 java {
 	toolchain {
-		languageVersion = JavaLanguageVersion.of(21)
+		languageVersion = JavaLanguageVersion.of(26)
 	}
 }
 
@@ -31,12 +31,15 @@ ext {
 	lombokMapstructBindingVersion = "0.2.0"
 	r2dbcMysqlVersion = "1.4.1"
 	openApiVersion = "3.1.1"
+	flywayVersion = "13.4.0"
 }
 
 dependencies {
 	implementation "org.springframework.boot:spring-boot-starter-webflux:${springBootVersion}"
 	implementation "org.springframework.boot:spring-boot-starter-validation:${springBootVersion}"
 	implementation "org.springframework.boot:spring-boot-starter-data-r2dbc:${springBootVersion}"
+	implementation "org.flywaydb:flyway-core:${flywayVersion}"
+	runtimeOnly "com.mysql:mysql-connector-j"
 	runtimeOnly "io.asyncer:r2dbc-mysql:${r2dbcMysqlVersion}"
 	developmentOnly "org.springframework.boot:spring-boot-devtools:${springBootVersion}"
 	testImplementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
