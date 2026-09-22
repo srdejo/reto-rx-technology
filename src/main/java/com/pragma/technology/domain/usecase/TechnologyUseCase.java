@@ -3,13 +3,16 @@ package com.pragma.technology.domain.usecase;
 import com.pragma.technology.domain.api.ITechnologyServicePort;
 import com.pragma.technology.domain.exception.TechnologyAlreadyExistsException;
 import com.pragma.technology.domain.exception.TechnologyNotFoundException;
+import com.pragma.technology.domain.model.CapacityTechnologiesModel;
 import com.pragma.technology.domain.model.TechnologyModel;
 import com.pragma.technology.domain.spi.ITechnologyPersistencePort;
+import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
 
+@Transactional
 public class TechnologyUseCase implements ITechnologyServicePort {
 
     private final ITechnologyPersistencePort technologyPersistencePort;
@@ -46,5 +49,10 @@ public class TechnologyUseCase implements ITechnologyServicePort {
                     }
                     return technologyPersistencePort.saveCapacityTechnologies(capacityId, technologyIds);
                 });
+    }
+
+    @Override
+    public Flux<CapacityTechnologiesModel> getTechnologiesByCapacityIds(List<Long> capacityIds) {
+        return technologyPersistencePort.getTechnologiesByCapacityIds(capacityIds);
     }
 }

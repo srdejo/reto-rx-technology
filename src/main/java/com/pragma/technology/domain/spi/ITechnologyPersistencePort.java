@@ -1,5 +1,6 @@
 package com.pragma.technology.domain.spi;
 
+import com.pragma.technology.domain.model.CapacityTechnologiesModel;
 import com.pragma.technology.domain.model.TechnologyModel;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -16,4 +17,6 @@ public interface ITechnologyPersistencePort {
     Flux<Long> findExistingTechnologyIds(List<Long> technologyIds);
 
     Mono<Void> saveCapacityTechnologies(Long capacityId, List<Long> technologyIds);
+
+    Flux<CapacityTechnologiesModel> getTechnologiesByCapacityIds(List<Long> capacityIds);
 }
