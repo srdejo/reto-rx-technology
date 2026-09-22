@@ -1,5 +1,6 @@
 package com.pragma.technology.application.handler.impl;
 
+import com.pragma.technology.application.dto.request.CapacityTechnologiesRequestDto;
 import com.pragma.technology.application.dto.request.TechnologyRequestDto;
 import com.pragma.technology.application.dto.response.TechnologyResponseDto;
 import com.pragma.technology.application.handler.ITechnologyHandler;
@@ -27,5 +28,12 @@ public class TechnologyHandler implements ITechnologyHandler {
     @Override
     public Flux<TechnologyResponseDto> getAllTechnologies() {
         return technologyServicePort.getAllTechnologies().map(technologyResponseMapper::toResponse);
+    }
+
+    @Override
+    public Mono<Void> saveCapacityTechnologies(CapacityTechnologiesRequestDto capacityTechnologiesRequestDto) {
+        return technologyServicePort.saveCapacityTechnologies(
+                capacityTechnologiesRequestDto.capacityId(),
+                capacityTechnologiesRequestDto.technologyIds());
     }
 }

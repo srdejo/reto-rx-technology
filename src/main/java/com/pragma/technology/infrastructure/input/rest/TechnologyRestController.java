@@ -1,5 +1,6 @@
 package com.pragma.technology.infrastructure.input.rest;
 
+import com.pragma.technology.application.dto.request.CapacityTechnologiesRequestDto;
 import com.pragma.technology.application.dto.request.TechnologyRequestDto;
 import com.pragma.technology.application.dto.response.TechnologyResponseDto;
 import com.pragma.technology.application.handler.ITechnologyHandler;
@@ -49,5 +50,16 @@ public class TechnologyRestController {
     @GetMapping()
     public Flux<TechnologyResponseDto> getAllTechnologies() {
         return technologyHandler.getAllTechnologies();
+    }
+
+    @Operation(summary = "Associate a list of technologies with a capacity")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Technologies associated with the capacity", content = @Content),
+            @ApiResponse(responseCode = "400", description = "Invalid request", content = @Content)
+    })
+    @PostMapping("/capacity-technologies")
+    public Mono<ResponseEntity<Void>> saveCapacityTechnologies(@Valid @RequestBody CapacityTechnologiesRequestDto capacityTechnologiesRequestDto) {
+        return technologyHandler.saveCapacityTechnologies(capacityTechnologiesRequestDto)
+                .thenReturn(new ResponseEntity<>(HttpStatus.CREATED));
     }
 }
