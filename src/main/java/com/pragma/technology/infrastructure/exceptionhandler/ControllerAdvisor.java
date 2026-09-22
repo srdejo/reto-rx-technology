@@ -1,6 +1,7 @@
 package com.pragma.technology.infrastructure.exceptionhandler;
 
 import com.pragma.technology.domain.exception.TechnologyAlreadyExistsException;
+import com.pragma.technology.domain.exception.TechnologyNotFoundException;
 import com.pragma.technology.infrastructure.exception.NoDataFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,17 +33,25 @@ public class ControllerAdvisor {
                 .body(Collections.singletonMap(MESSAGE, ExceptionResponse.TECHNOLOGY_ALREADY_EXISTS.getMessage()));
     }
 
+    @ExceptionHandler(TechnologyNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleTechnologyNotFoundException(
+            TechnologyNotFoundException ignored) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Collections.singletonMap(MESSAGE, ExceptionResponse.TECHNOLOGY_NOT_FOUND.getMessage()));
+    }
+
     @ExceptionHandler(WebExchangeBindException.class)
     public ResponseEntity<Map<String, String>> handleValidationException(WebExchangeBindException exception) {
         Map<String, String> errors = exception.getFieldErrors()
                 .stream()
                 .collect(Collectors.toMap(
                         FieldError::getField,
-                        FieldError::getDefaultMessage,
+                        fieldError -> fieldError.getDefaultMessage() != null
+                                ? fieldError.getDefaultMessage()
+                                : ExceptionResponse.INVALID_REQUEST.getMessage(),
                         (existing, _) -> existing
                 ));
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(errors);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
     }
 }
