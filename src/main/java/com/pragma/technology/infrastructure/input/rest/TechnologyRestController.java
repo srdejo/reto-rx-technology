@@ -15,6 +15,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -76,5 +77,14 @@ public class TechnologyRestController {
     @GetMapping("/capacity-technologies")
     public Flux<CapacityTechnologiesResponseDto> getTechnologiesByCapacityIds(@RequestParam List<Long> capacityIds) {
         return technologyHandler.getTechnologiesByCapacityIds(capacityIds);
+    }
+
+    @Operation(summary = "Delete the technologies exclusively associated with the given capacities")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Technology associations and orphan technologies deleted", content = @Content)
+    })
+    @DeleteMapping("/capacity-technologies")
+    public Mono<Void> deleteTechnologiesByCapacityIds(@RequestParam List<Long> capacityIds) {
+        return technologyHandler.deleteTechnologiesByCapacityIds(capacityIds);
     }
 }

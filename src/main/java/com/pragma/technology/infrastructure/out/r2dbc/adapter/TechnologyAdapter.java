@@ -41,4 +41,9 @@ public class TechnologyAdapter implements ITechnologyPersistencePort {
         return technologyRepository.findAllById(technologyIds)
                 .map(TechnologyEntity::getId);
     }
+
+    @Override
+    public Mono<Void> deleteTechnologiesByIds(List<Long> technologyIds) {
+        return technologyRepository.deleteAllById(technologyIds);
+    }
 }
