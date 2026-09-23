@@ -40,6 +40,21 @@ public class CapacityTechnologyAdapter implements ICapacityTechnologyPersistence
                                 new ArrayList<>(technologiesByCapacityId.getOrDefault(capacityId, List.of())))));
     }
 
+    @Override
+    public Flux<Long> findTechnologyIdsByCapacityIds(List<Long> capacityIds) {
+        return capacityTechnologyRepository.findTechnologyIdsByCapacityIds(capacityIds);
+    }
+
+    @Override
+    public Mono<Void> deleteByCapacityIds(List<Long> capacityIds) {
+        return capacityTechnologyRepository.deleteByCapacityIdIn(capacityIds);
+    }
+
+    @Override
+    public Flux<Long> findReferencedTechnologyIds(List<Long> technologyIds) {
+        return capacityTechnologyRepository.findReferencedTechnologyIds(technologyIds);
+    }
+
     private TechnologyModel toTechnologyModel(CapacityTechnologyProjection projection) {
         return new TechnologyModel(projection.technologyId(), projection.name(), projection.description());
     }

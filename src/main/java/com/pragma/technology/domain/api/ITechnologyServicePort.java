@@ -16,4 +16,6 @@ public interface ITechnologyServicePort {
     Mono<Void> saveCapacityTechnologies(Long capacityId, List<Long> technologyIds);
 
     Flux<CapacityTechnologiesModel> getTechnologiesByCapacityIds(List<Long> capacityIds);
+
+    Mono<Void> deleteTechnologiesByCapacityIds(List<Long> capacityIds);
 }

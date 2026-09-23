@@ -18,4 +18,6 @@ public interface ITechnologyHandler {
     Mono<Void> saveCapacityTechnologies(CapacityTechnologiesRequestDto capacityTechnologiesRequestDto);
 
     Flux<CapacityTechnologiesResponseDto> getTechnologiesByCapacityIds(List<Long> capacityIds);
+
+    Mono<Void> deleteTechnologiesByCapacityIds(List<Long> capacityIds);
 }

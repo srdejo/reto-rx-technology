@@ -59,4 +59,34 @@ public class TechnologyUseCase implements ITechnologyServicePort {
     public Flux<CapacityTechnologiesModel> getTechnologiesByCapacityIds(List<Long> capacityIds) {
         return capacityTechnologyPersistencePort.getTechnologiesByCapacityIds(capacityIds);
     }
+
+    @Override
+    public Mono<Void> deleteTechnologiesByCapacityIds(List<Long> capacityIds) {
+        if (capacityIds.isEmpty()) {
+            return Mono.empty();
+        }
+
+        return capacityTechnologyPersistencePort.findTechnologyIdsByCapacityIds(capacityIds)
+                .collectList()
+                .flatMap(technologyIds -> capacityTechnologyPersistencePort.deleteByCapacityIds(capacityIds)
+                        .then(deleteOrphanTechnologies(technologyIds)));
+    }
+
+    private Mono<Void> deleteOrphanTechnologies(List<Long> technologyIds) {
+        if (technologyIds.isEmpty()) {
+            return Mono.empty();
+        }
+
+        return capacityTechnologyPersistencePort.findReferencedTechnologyIds(technologyIds)
+                .collectList()
+                .flatMap(stillReferencedIds -> {
+                    List<Long> orphanTechnologyIds = technologyIds.stream()
+                            .filter(technologyId -> !stillReferencedIds.contains(technologyId))
+                            .toList();
+                    if (orphanTechnologyIds.isEmpty()) {
+                        return Mono.empty();
+                    }
+                    return technologyPersistencePort.deleteTechnologiesByIds(orphanTechnologyIds);
+                });
+    }
 }
