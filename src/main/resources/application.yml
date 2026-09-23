@@ -10,5 +10,7 @@ spring:
     init:
       mode: always
 
+allowed-origins: ${ALLOWED_ORIGIN:http://localhost:4200}
+
 appDescription: "Pragma Reactive Technology"
 appVersion: "1.0.0"
