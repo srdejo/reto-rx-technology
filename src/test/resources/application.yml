@@ -6,5 +6,10 @@ spring:
   sql:
     init:
       mode: always
+
+allowed-origins: http://localhost:4200
 appDescription: "Pragma Reactive Technology"
 appVersion: "1.0.0"
+
+jwt:
+  secret: change-this-secret-change-this-secret-32bytes
