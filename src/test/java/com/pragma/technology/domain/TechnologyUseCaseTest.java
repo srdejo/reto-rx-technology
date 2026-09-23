@@ -1,7 +1,6 @@
 package com.pragma.technology.domain;
 
 import com.pragma.technology.domain.model.TechnologyModel;
-import com.pragma.technology.domain.spi.ICapacityTechnologyPersistencePort;
 import com.pragma.technology.domain.spi.ITechnologyPersistencePort;
 import com.pragma.technology.domain.usecase.TechnologyUseCase;
 import org.junit.jupiter.api.Test;
@@ -15,8 +14,7 @@ import static org.mockito.Mockito.when;
 class TechnologyUseCaseTest {
 
     private final ITechnologyPersistencePort port = mock(ITechnologyPersistencePort.class);
-    private final ICapacityTechnologyPersistencePort capacityTechnologyPort = mock(ICapacityTechnologyPersistencePort.class);
-    private final TechnologyUseCase useCase = new TechnologyUseCase(port, capacityTechnologyPort);
+    private final TechnologyUseCase useCase = new TechnologyUseCase(port);
 
     @Test
     void saveTechnologyDelegatesToPort() {

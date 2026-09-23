@@ -2,7 +2,6 @@ package com.pragma.technology.infrastructure.out.r2dbc.adapter;
 
 import com.pragma.technology.domain.model.TechnologyModel;
 import com.pragma.technology.domain.spi.ITechnologyPersistencePort;
-import com.pragma.technology.infrastructure.exception.NoDataFoundException;
 import com.pragma.technology.infrastructure.out.r2dbc.entity.TechnologyEntity;
 import com.pragma.technology.infrastructure.out.r2dbc.mapper.ITechnologyEntityMapper;
 import com.pragma.technology.infrastructure.out.r2dbc.repository.ITechnologyRepository;
@@ -27,7 +26,6 @@ public class TechnologyAdapter implements ITechnologyPersistencePort {
     @Override
     public Flux<TechnologyModel> getAllTechnologies() {
         return technologyRepository.findAll()
-                .switchIfEmpty(Flux.error(new NoDataFoundException()))
                 .map(technologyEntityMapper::toTechnologyModel);
     }
 

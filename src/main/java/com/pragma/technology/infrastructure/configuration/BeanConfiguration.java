@@ -1,8 +1,10 @@
 package com.pragma.technology.infrastructure.configuration;
 
+import com.pragma.technology.domain.api.ICapacityTechnologyServicePort;
 import com.pragma.technology.domain.api.ITechnologyServicePort;
 import com.pragma.technology.domain.spi.ICapacityTechnologyPersistencePort;
 import com.pragma.technology.domain.spi.ITechnologyPersistencePort;
+import com.pragma.technology.domain.usecase.CapacityTechnologyUseCase;
 import com.pragma.technology.domain.usecase.TechnologyUseCase;
 import com.pragma.technology.infrastructure.out.r2dbc.adapter.CapacityTechnologyAdapter;
 import com.pragma.technology.infrastructure.out.r2dbc.adapter.TechnologyAdapter;
@@ -32,6 +34,11 @@ public class BeanConfiguration {
 
     @Bean
     public ITechnologyServicePort technologyServicePort() {
-        return new TechnologyUseCase(technologyPersistencePort(), capacityTechnologyPersistencePort());
+        return new TechnologyUseCase(technologyPersistencePort());
+    }
+
+    @Bean
+    public ICapacityTechnologyServicePort capacityTechnologyServicePort() {
+        return new CapacityTechnologyUseCase(technologyPersistencePort(), capacityTechnologyPersistencePort());
     }
 }
